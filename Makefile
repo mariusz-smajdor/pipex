@@ -3,7 +3,7 @@ CC = cc
 FLAGS = -Wall -Wextra -Werror
 RM = rm -f
 
-SRCS = main.c
+SRCS = main.c utils.c
 OBJS = $(SRCS:.c=.o)
 
 INCLUDE_DIRS = libs/libft libs/ft_printf

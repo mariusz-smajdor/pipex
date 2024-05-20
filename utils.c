@@ -1,21 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: msmajdor <msmajdor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/15 15:27:03 by msmajdor          #+#    #+#             */
-/*   Updated: 2024/05/19 15:59:50 by msmajdor         ###   ########.fr       */
+/*   Created: 2024/05/20 17:09:43 by msmajdor          #+#    #+#             */
+/*   Updated: 2024/05/20 17:09:43 by msmajdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#include "pipex.h"
 
-# include "libs/libft/libft.h"
-# include "libs/ft_printf/libftprintf.h"
-
-void	error();
-
-#endif
+void	error()
+{
+	perror("Error");
+	exit(EXIT_FAILURE);
+}
