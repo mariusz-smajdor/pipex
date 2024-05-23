@@ -12,30 +12,34 @@
 
 #include "pipex.h"
 
-static void	child_process(char **argv, char **envp, int *fd)
+int	main(int ac, char **av, char **envp)
 {
-	int		filein;
+	int pipefd[2];
+	pid_t pid;
+	char *line;
 
-	filein = open(argv[1], O_RDONLY, 0644);
-	if (filein == -1)
-		error();
-	dup2(fd[1], STDOUT_FILENO);
-}
-
-int	main(int argc, char **argv, char **envp)
-{
-	int		fd[2];
-	tpid	pid1;
-
-	if (argc == 5)
+	if (pipe(pipefd) == -1)
+		error("pipe");
+	if ((pid = fork()) == -1)
+		error("fork");
+	if (pid == 0)
 	{
-		if (pipe(fd) == -1)
-			error();
-		pid1 = fork();
-		if (pid1 == -1)
-			error();
-		if (pid1 == 0)
-			child_process(argv, envp, fd);
+		close(pipefd[1]);
+		while ((line = get_next_line(pipefd[0])))
+		{
+			ft_printf("%s", line);
+			free(line);
+		}
+		close(pipefd[0]);
+		exit(EXIT_SUCCESS);
+	}
+	else
+	{
+		close(pipefd[0]);
+		write(pipefd[1], "super\n", 6);
+		close(pipefd[1]);
+		if (waitpid(pid, NULL, 0) == -1)
+			error("waitpid");
 	}
 	return (0);
 }
