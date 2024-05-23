@@ -15,6 +15,7 @@
 
 # include "libs/libft/libft.h"
 # include "libs/ft_printf/libftprintf.h"
+# include <stdio.h>
 
 void	error();
 
