@@ -27,6 +27,22 @@ static void	child_process(char **av, char **envp, int pipefd[2])
 	execute(av[2], envp);
 }
 
+static void	parent_process(char **av, char **envp, int *fd)
+{
+	int		fout;
+
+	close(fd[1]);
+	fout = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0664);
+	if (fout == -1)
+		error("open");
+	if (dup2(fd[0], 0) == -1)
+		error("dup2");
+	close(fd[0]);
+	if (dup2(fout, 1) == -1)
+		error("dup2");
+	execute(av[3], envp);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	int		pipefd[2];
@@ -40,6 +56,8 @@ int	main(int ac, char **av, char **envp)
 			error("pid");
 		if (pid == 0)
 			child_process(av, envp, pipefd);
+		waitpid(pid, NULL, 0);
+		parent_process(av, envp, pipefd);
 	}
 	else
 		ft_printf("Invalid number of arguments!");
