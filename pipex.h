@@ -17,6 +17,7 @@
 # include "libs/ft_printf/libftprintf.h"
 # include <stdio.h>
 
-void	error();
+void	error(const char *msg);
+void	execute(char *cmd1, char **envp)
 
 #endif

@@ -24,6 +24,7 @@ static void	child_process(char **av, char **envp, int pipefd[2])
 	close(pipefd[1]);
 	if (dup2(filein, 0) == -1)
 		error("dup2");
+	execute(av[2], envp);
 }
 
 int	main(int ac, char **av, char **envp)
