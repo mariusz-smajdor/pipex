@@ -12,8 +12,8 @@
 
 #include "pipex.h"
 
-void	error()
+void	error(const char *msg)
 {
-	perror("Error");
+	perror(msg);
 	exit(EXIT_FAILURE);
 }
