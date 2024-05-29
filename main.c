@@ -6,7 +6,7 @@
 /*   By: msmajdor <msmajdor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 15:27:00 by msmajdor          #+#    #+#             */
-/*   Updated: 2024/05/20 15:21:27 by msmajdor         ###   ########.fr       */
+/*   Updated: 2024/05/29 17:38:35 by msmajdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ static void	child_process(char **av, char **envp, int pipefd[2])
 	int	filein;
 
 	close(pipefd[0]);
-	if ((filein = open(av[1], O_RDONLY)) == -1)
+	filein = open(av[1], O_RDONLY);
+	if (filein == -1)
 		error("open");
 	if (dup2(pipefd[1], 1) == -1)
 		error("dup2");
@@ -52,7 +53,8 @@ int	main(int ac, char **av, char **envp)
 	{
 		if (pipe(pipefd) == -1)
 			error("pipe");
-		if ((pid = fork()) == -1)
+		pid = fork();
+		if (pid == -1)
 			error("pid");
 		if (pid == 0)
 			child_process(av, envp, pipefd);
