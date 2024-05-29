@@ -15,7 +15,9 @@
 
 # include "libs/libft/libft.h"
 # include "libs/ft_printf/libftprintf.h"
+# include <string.h>
 # include <stdio.h>
+# include <sys/wait.h>
 
 void	error(const char *msg);
 void	execute(char *cmd1, char **envp);
