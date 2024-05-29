@@ -12,34 +12,35 @@
 
 #include "pipex.h"
 
+static void	child_process(char **av, char **envp, int pipefd[2])
+{
+	int	filein;
+
+	close(pipefd[0]);
+	if ((filein = open(av[1], O_RDONLY)) == -1)
+		error("open");
+	if (dup2(pipefd[1], 1) == -1)
+		error("dup2");
+	close(pipefd[1]);
+	if (dup2(filein, 0) == -1)
+		error("dup2");
+}
+
 int	main(int ac, char **av, char **envp)
 {
-	int pipefd[2];
-	pid_t pid;
-	char *line;
+	int		pipefd[2];
+	pid_t	pid;
 
-	if (pipe(pipefd) == -1)
-		error("pipe");
-	if ((pid = fork()) == -1)
-		error("fork");
-	if (pid == 0)
+	if (ac == 5)
 	{
-		close(pipefd[1]);
-		while ((line = get_next_line(pipefd[0])))
-		{
-			ft_printf("%s", line);
-			free(line);
-		}
-		close(pipefd[0]);
-		exit(EXIT_SUCCESS);
+		if (pipe(pipefd) == -1)
+			error("pipe");
+		if ((pid = fork()) == -1)
+			error("pid");
+		if (pid == 0)
+			child_process(av, envp, pipefd);
 	}
 	else
-	{
-		close(pipefd[0]);
-		write(pipefd[1], "super\n", 6);
-		close(pipefd[1]);
-		if (waitpid(pid, NULL, 0) == -1)
-			error("waitpid");
-	}
+		ft_printf("Invalid number of arguments!");
 	return (0);
 }
