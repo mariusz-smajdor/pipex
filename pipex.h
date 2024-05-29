@@ -18,6 +18,6 @@
 # include <stdio.h>
 
 void	error(const char *msg);
-void	execute(char *cmd1, char **envp)
+void	execute(char *cmd1, char **envp);
 
 #endif
